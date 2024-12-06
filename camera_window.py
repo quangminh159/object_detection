@@ -78,7 +78,7 @@ class CameraWindow(QMainWindow):
         self.textEdit.setText("\n".join(detected_objects))
         lost_objects = self.previous_objects - detected_objects
         # person_detected = any('person' in obj for obj in detected_objects)
-        for obj in lost_objects:# nếu muốn thay đổi đối tượng theo dõi thì đổi obj thành tên đối tượng cần theo dõi
+        for obj in lost_objects:
             if obj not in self.lost_object_counters:
                 self.lost_object_counters[obj] = 1
             else:
@@ -87,6 +87,19 @@ class CameraWindow(QMainWindow):
                 self.show_warning(f"Đối tượng bị mất: {obj}")
                 del self.lost_object_counters[obj]  
         self.previous_objects = detected_objects
+        # chỉ thông báo khi phát hiện đối tượng person
+        # if any('person' in obj for obj in lost_objects):
+        #     # Track and show warning if 'person' is lost for 5 frames
+        #     if 'person' not in self.lost_object_counters:
+        #         self.lost_object_counters['person'] = 1
+        #     else:
+        #         self.lost_object_counters['person'] += 1
+        #     if self.lost_object_counters['person'] > 5: 
+        #         self.show_warning("Đối tượng 'person' bị mất!")
+        #         del self.lost_object_counters['person']  
+        # else:
+        #     if 'person' in detected_objects:
+        #         self.lost_object_counters['person'] = 0
 
         height, width, channels = rgb_frame.shape
         bytes_per_line = 3 * width
