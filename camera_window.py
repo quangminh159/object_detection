@@ -36,6 +36,8 @@ class CameraWindow(QMainWindow):
             if not self.cap.isOpened():
                 self.show_message("Lỗi", "Không thể mở camera!", QMessageBox.Critical)
                 return
+            fourcc = cv2.VideoWriter_fourcc(*'XVID')  # Định dạng video
+            self.video_writer = cv2.VideoWriter('output_video.avi', fourcc, 20.0, (640, 480))
             self.timer = QTimer(self)
             self.timer.timeout.connect(self.update_frame)
             self.timer.start(200)
